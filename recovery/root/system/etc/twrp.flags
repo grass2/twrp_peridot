@@ -30,6 +30,9 @@
 /vendor                ext4    /dev/block/mapper/vendor                                           flags=display="vendor";logical;slotselect
 /vendor_dlkm           erofs   /dev/block/mapper/vendor_dlkm                                      flags=display="vendor_dlkm";logical;slotselect
 /vendor_dlkm           ext4    /dev/block/mapper/vendor_dlkm                                      flags=display="vendor_dlkm";logical;slotselect
+/system_dlkm           erofs   /dev/block/mapper/system_dlkm                                      flags=display="system_dlkm";slotselect;logical
+/system_dlkm           ext4    /dev/block/mapper/system_dlkm                                      flags=display="system_dlkm";slotselect;logical
+
 /odm                   erofs   /dev/block/mapper/odm                                              flags=display="odm";logical;slotselect
 /odm                   ext4    /dev/block/mapper/odm                                              flags=display="odm";logical;slotselect
 /mi_ext                erofs   /dev/block/mapper/mi_ext                                           flags=display="mi_ext";logical;slotselect
