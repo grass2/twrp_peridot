@@ -1,0 +1,15 @@
+<!--
+    Input:
+        system/libhidl/vintfdata/manifest.xml
+        device/xiaomi/missi/framework_manifest.xml
+-->
+<manifest version="4.0" type="framework">
+    <system-sdk>
+        <version>29</version>
+        <version>30</version>
+        <version>31</version>
+        <version>32</version>
+        <version>33</version>
+        <version>34</version>
+    </system-sdk>
+</manifest>
