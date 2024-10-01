@@ -73,7 +73,6 @@ BOARD_QTI_DYNAMIC_PARTITIONS_PARTITION_LIST := \
     odm \
     product \
     system \
-    
     system_ext \
     vendor \
     vendor_dlkm
