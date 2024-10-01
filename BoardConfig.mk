@@ -73,7 +73,7 @@ BOARD_QTI_DYNAMIC_PARTITIONS_PARTITION_LIST := \
     odm \
     product \
     system \
-    
+    system_dlkm \
     system_ext \
     vendor \
     vendor_dlkm
@@ -154,7 +154,7 @@ TW_INCLUDE_FUSE_EXFAT := true
 TW_INCLUDE_FUSE_NTFS := true
 TW_INCLUDE_NTFS_3G := true
 TW_INPUT_BLACKLIST := "hbtp_vm"
-TW_LOAD_VENDOR_MODULES := "adsp_loader_dlkm.ko focaltech_touch.ko goodix_core.ko"
+TW_LOAD_VENDOR_MODULES := "$(strip $(shell cat device/xiaomi/peridot//modules.load))"
 TW_MAX_BRIGHTNESS := 2047
 TW_NO_EXFAT_FUSE := true
 TW_NO_SCREEN_BLANK := true
