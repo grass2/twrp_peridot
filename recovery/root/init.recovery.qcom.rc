@@ -43,12 +43,32 @@ on fs
     write /proc/sys/kernel/firmware_config/force_sysfs_fallback 1
     mkdir /firmware
     mount vfat /dev/block/bootdevice/by-name/modem${ro.boot.slot_suffix} /firmware ro
+    # needed to make qseecomd work in recovery
+    chmod 0660 /dev/qseecom
+    chown system drmrpc /dev/qseecom
+    chmod 0664 /dev/ion
+    chown system system /dev/ion
+    mkdir /mnt/vendor 0775 shell system
+    mkdir /mnt/vendor/persist 0775 shell system
+    mkdir /tmp/persist 0775 shell system
+    mount none /tmp/persist /mnt/vendor/persist bind rec
 
 on property:twrp.modules.loaded=true
     wait /sys/kernel/boot_adsp/boot
     write /sys/kernel/boot_adsp/boot 1
     wait /sys/class/power_supply/battery
     start health-hal-2-1
+    start vendor.qseecomd
     umount /firmware
+
+on property:ro.crypto.state=encrypted
+    install_keyring
+
+on property:vendor.sys.listeners.registered=true
+    start vendor.secure_element
+    start vendor.gatekeeper_default
+    start vendor.keymint-qti
+    start vendor.weaver_nxp
+    start vendor.keymint-strongbox
 
 # END Recovery_StabilityEnhance
