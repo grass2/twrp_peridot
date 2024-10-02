@@ -14,5 +14,5 @@ $(call inherit-product, device/xiaomi/peridot/device.mk)
 PRODUCT_BRAND := Xiaomi
 PRODUCT_DEVICE := peridot
 PRODUCT_MANUFACTURER := Xiaomi
-PRODUCT_MODEL := RedmiTurbo3
+PRODUCT_MODEL := POCO F6
 PRODUCT_NAME := twrp_peridot
