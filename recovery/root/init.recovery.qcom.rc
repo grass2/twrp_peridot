@@ -42,13 +42,49 @@ on fs
     symlink /dev/block/platform/soc/${ro.boot.bootdevice} /dev/block/bootdevice
     write /proc/sys/kernel/firmware_config/force_sysfs_fallback 1
     mkdir /firmware
+    mkdir /vendor/firmware_mnt
     mount vfat /dev/block/bootdevice/by-name/modem${ro.boot.slot_suffix} /firmware ro
+    mount_all /vendor/etc/charger_fw_fstab.qti --early
+    # needed to make qseecomd work in recovery
+    chmod 0660 /dev/qseecom
+    chown system drmrpc /dev/qseecom
+    chmod 0664 /dev/ion
+    chown system system /dev/ion
+    mkdir /mnt/vendor 0775 shell system
+    mkdir /mnt/vendor/persist 0775 shell system
+    mkdir /tmp/persist 0775 shell system
+    mount none /tmp/persist /mnt/vendor/persist bind rec
 
 on property:twrp.modules.loaded=true
     wait /sys/kernel/boot_adsp/boot
     write /sys/kernel/boot_adsp/boot 1
     wait /sys/class/power_supply/battery
     start health-hal-2-1
+
+on property:hwservicemanager.ready=true && property:ro.crypto.state=encrypted
+    start vendor.qseecomd
+
+on property:init.svc.fastbootd=running
     umount /firmware
+    umount vendor/firmware_mnt
+
+on property:ro.crypto.state=encrypted
+    install_keyring
+
+on property:vendor.sys.listeners.registered=true && property:ro.crypto.state=encrypted
+    start vendor.secure_element
+    start vendor.gatekeeper_default
+    start vendor.keymint-qti
+    start vendor.weaver_nxp
+    start vendor.keymint-strongbox
+
+on property:of_skip_fbe_decryption=true
+    stop vendor.qseecomd
+    stop vendor.secure_element
+    stop vendor.gatekeeper_default
+    stop vendor.keymint-qti
+    stop vendor.weaver_nxp
+    stop vendor.keymint-strongbox
+    stop keystore2
 
 # END Recovery_StabilityEnhance
